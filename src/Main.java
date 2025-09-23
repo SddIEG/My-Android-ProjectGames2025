@@ -10,7 +10,7 @@ public class Main {
         int sizeBoard = 5;
         System.out.println("------------------------");
         System.out.println("| |");
-        System.out.println("| |");
+        System.out.println("|  |");
         System.out.println("------------------------");
 
 
