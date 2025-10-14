@@ -22,7 +22,7 @@ public class Main {
             }
         }
         Person persona = new Person(sizeBoard);
-
+        BigBigBoss boss = new BigBigBoss(sizeBoard);
         board[castleX][castleY] = caslte;
         Monster[] arrayMonster = new Monster[kolvoMonster + 1];
         int count = 0;
@@ -58,6 +58,7 @@ public class Main {
                 }
 
                 while (true) {
+                    board[boss.getY()-1][boss.getX()-1] = boss.getImg();
                     board[persona.getY() - 1][persona.getX() - 1] = persona.getImage();
                     outputBoard(board, persona.getLive());
                     if (difficult != 5) {
@@ -69,10 +70,20 @@ public class Main {
                                 "（我允许你只走垂直和水平，只有一次）" +
                                 "\n你在这儿 - (x: " + persona.getX() + ", y: " + persona.getY() + "))");
                     }
+
                     System.out.print("X ");
                     int x = scanner.nextInt();
                     System.out.print("Y ");
                     int y = scanner.nextInt();
+                    int xx = r.nextInt(5);
+                    int yy = r.nextInt(5);
+                    if (boss.moveCorrect(xx, yy)) {
+                        String next = board[yy - 1][xx - 1];
+                        if (next.equals("  ")) {
+                            board[boss.getY() - 1][boss.getX() - 1] = "  ";
+                            persona.move(xx, yy);
+                        }
+                    }
 
                     if (persona.moveCorrect(x, y)) {
                         String next = board[y - 1][x - 1];
@@ -142,7 +153,7 @@ public class Main {
             System.out.println(rightBlock);
         }
         System.out.println(wall);
-String health = "\uD83D\uDC96";
+        String health = "\uD83D\uDC96";
 
         System.out.println(health + live + "\n");
     }
