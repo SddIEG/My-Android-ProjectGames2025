@@ -1,83 +1,46 @@
 import java.util.Random;
+import java.util.Scanner;
 
-public class BigBigBoss                    {
-    private int x;
-    private  int y;
-    private int sizeBoard;
-    private String img = "";
-    Random r = new Random();
+public class TestBonys {
 
+    public static void main(String[] args) {
+        System.out.println("БОООНУС");
+        int plus=0,minus=0;
+        int dif = 2;
+        Random r = new Random();
+        int chans = r.nextInt(dif+1) - dif;
 
-    public BigBigBoss(int sizeBoard){
-        this.sizeBoard = sizeBoard;
-        this.r = new Random();
-        this.x = sizeBoard;
-        this.y=sizeBoard;
-    }
+        if (chans == 0) {
+            System.out.println("DFGHJKLMNPQRSTUVWXYZ");
 
-    public int getX() {
-        return x;
-    }
-
-
-
-    public int getY() {
-        return y;
-    }
-
-
-
-
-    public String getImg() {
-        return img;
-    }
-
-
-
-
-
-
-private void moveUp(){
-        if(y>1){
-            y--;
+        }else {
+            System.out.println("@#$%^");
         }
-    }
+
+        String[] bon = {"\uD83D\uDCA9", "❤\uFE0F", "\uD83C\uDF1D"};
+
+        System.out.println("Ты можешь крутить или нет .Если повезёт то я подарю тебе одну жизнь)"
+                + "\n Просто скажи Да или Нет");
+        Scanner s = new Scanner(System.in);
+        String ans = s.next();
+        String one, two, three;
 
 
 
-    private void moveDown(){
-        if(y<sizeBoard){
-            y++;
+        for (int i = 0; i < 10; i++) {
+            one = bon[r.nextInt(bon.length)];
+            two = bon[r.nextInt(bon.length)];
+            three = bon[r.nextInt(bon.length)];
+            System.out.println(one + "|" + two + "|" + three);
+            if (one == two && one == three) {
+                System.out.println("Ура");
+                plus++;
+            } else {
+                System.out.println("Увы");
+                minus++;
+            }
         }
+        System.out.println("Ура ="+plus+" Мдэээ ="+minus);
     }
-
-    private void moveLeft(){
-        if(x>1){
-            x--;
-        }
-    }
-    private void moveRight(){
-        if(x<sizeBoard){
-            x++;
-        }
-    }
-    public void Step(){
-        int dir = r.nextInt(4);
-
-        switch (dir) {
-            case 1 -> moveUp();
-            case 2 -> moveDown();
-            case 3 -> moveLeft();
-            case 4 -> moveRight();
-
-        }
-    }
-
-
-
-    public boolean movePlayer(int playerX,int playerY){
-        return this.x ==playerX && this.y == playerY;
-    }
-
 
 }
