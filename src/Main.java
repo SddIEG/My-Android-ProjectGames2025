@@ -95,7 +95,6 @@ public class Maan {
                             System.out.println("Вы добегаете до лестницы и с свистом вылетаете из двери в школьный двор. Там до дома рукой подать.");
                             break;
                         } else if (next.equals(boss.getImg())) {
-                            System.out.println("Вы встретили директора! Он замечает вас...");
                             boss.attackPlayer(persona);
                             board[persona.getY() - 1][persona.getX() - 1] = "  ";
                             persona.move(x, y);
