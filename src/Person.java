@@ -2,23 +2,20 @@ import java.util.Random;
 
 public class Person {
     protected int x, y;
-    private String image = "\uD83E\uDD20";
+    private String image = "\uD83D\uDC66";
     private int live = 3;
     Random r = new Random();
 
     Person(int sizeBoard) {
         y = sizeBoard;
-        int n = r.nextInt(sizeBoard);
-        x = n == 0 ? 1 : n;
+        x = 3;
     }
 
     Person(int x, int y){
         this.x = x;
         this.y = y;
     }
-    Person(){
-        this(1, 1);
-    }
+
 
     public int getX(){
         return x;
@@ -49,7 +46,14 @@ public class Person {
         this.y = y;
     }
 
-    public void downLive(){
+
+
+    public void upLive() {
+        live++;
+        System.out.println("Получена дополнительная жизнь! Теперь у вас: " + live + " жизней");
+    }
+    public void endLive() {
         live--;
+       
     }
 }
