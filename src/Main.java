@@ -7,152 +7,170 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         int stepa = 0;
         int difficult;
-        String caslte = "\uD83C\uDFF0";
+        String Lestnica = "\uD83C\uDFF0";
 
         int sizeBoard = 5;
-        int kolvoMonster = sizeBoard * sizeBoard - sizeBoard - 5;
-        int kilvoBonys = sizeBoard * sizeBoard - sizeBoard - 5;
-
         Random r = new Random();
-        int castleX = 0;
-        int castleY = r.nextInt(sizeBoard);
+        int lestnicaX = r.nextInt(sizeBoard);
+        int lestnicaY = 0;
         String[][] board = new String[sizeBoard][sizeBoard];
         for (int y = 0; y < sizeBoard; y++) {
             for (int x = 0; x < sizeBoard; x++) {
                 board[y][x] = "  ";
             }
         }
+        int kolvoMonster = sizeBoard * sizeBoard - sizeBoard - 5;
+
+
         Person persona = new Person(sizeBoard);
         BigBigBoss boss = new BigBigBoss(sizeBoard);
-        board[castleX][castleY] = caslte;
-        Bonys [] arrayBonys = new Bonys[kolvoMonster +1];
-        Monster[] arrayMonster = new Monster[kolvoMonster + 1];
+        board[lestnicaY][lestnicaX] = Lestnica;
+        Monster[] arrayMonster = new Monster[kolvoMonster];
         int count = 0;
-        Monster zadanie;
-        Bonys bonys;
-        while (count <= kolvoMonster) {
-            if (r.nextBoolean()) {
-                zadanie = new Monster(sizeBoard);
-            } else {
-                zadanie = new BigMonster(sizeBoard);
-            }
-            if (board[zadanie.getY()][zadanie.getX()].equals("  ")) {
-                board[zadanie.getY()][zadanie.getX()] = zadanie.getImage();
-                arrayMonster[count] = zadanie;
-                count++;
-            }
-          }
 
-            
 
-       
-
-        System.out.println("Приветствую тебя!.Ты готов ?(Напиши Да/Нет)");
+        System.out.println("Ты решил прогулять уроки.Когда ты вышел из класса как бы в туалет ты раздумываешь.Бежим? (Напиши Да/Нет)");
         String ans = scanner.nextLine();
 
 
         switch (ans) {
-            case "Да" : {
-                System.out.println("Начинаем играть)");
-                System.out.println("Выберите уровень сложности");
+            case "Да":
+                System.out.println("Бежим!");
+                System.out.println("На каком вы этаже? \n" +
+                        "(Это тоже самое что и уровень сложности.Выше этаж сложнее из него выбраться)");
                 difficult = scanner.nextInt();
-                if (difficult != 5) {
-                    System.out.println("Ты выбрал уровень сложности:\t" + difficult);
 
-                } else {
-                    System.out.println("你选择了难度级别吗:\t" + difficult);
+                do {
+                    boss = new BigBigBoss(1);
+                } while (!board[boss.getY()-1][boss.getX()-1].equals("  "));
+                board[boss.getY()-1][boss.getX()-1] = boss.getImg();
+
+                while (difficult > 5 || difficult < 1) {
+
+                    System.out.println("Повторяю выберите уровень сложности");
+
+                    difficult = scanner.nextInt();
+                }
+                int kolvoBonys = difficult / 2;
+
+
+                while (count < kolvoMonster) {
+                    Monster zadanie;
+
+                    if (r.nextBoolean()) {
+                        zadanie = new Monster(sizeBoard);
+                    } else {
+                        zadanie = new BigMonster(sizeBoard);
+                    }
+
+                    if (board[zadanie.getY()][zadanie.getX()].equals("  ")) {
+                        board[zadanie.getY()][zadanie.getX()] = zadanie.getImage();
+                        arrayMonster[count] = zadanie;
+                        count++;
+                    }
+                }
+                Bonys[] arrayBonys = new Bonys[kolvoBonys];
+                for (int i = 0; i < kolvoBonys; i++) {
+                    Bonys bonus;
+                    do {
+                        bonus = new Bonys(sizeBoard);
+                    } while (!board[bonus.getY()-1][bonus.getX()-1].equals("  "));
+                    board[bonus.getY()-1][bonus.getX()-1] = bonus.getImg();
+                    arrayBonys[i] = bonus;
                 }
 
                 while (true) {
-                    board[boss.getY()-1][boss.getX()-1] = boss.getImg();
                     board[persona.getY() - 1][persona.getX() - 1] = persona.getImage();
                     outputBoard(board, persona.getLive());
-                    if (difficult != 5) {
-                        System.out.println("Жду твоего хода\n" +
-                                "(Разрешаю ходить только по вертикали и горизонтали и только один раз)" +
-                                "\nТы тут - (x: " + persona.getX() + ", y: " + persona.getY() + "))");
-                    } else {
-                        System.out.println("等待你的移动\n" +
-                                "（我允许你只走垂直和水平，只有一次）" +
-                                "\n你在这儿 - (x: " + persona.getX() + ", y: " + persona.getY() + "))");
-                    }
-                    board[boss.getY() - 1][boss.getX() - 1] = "  ";
-                    boss.Step();
-                    board[boss.getY() - 1][boss.getX() - 1] = boss.getImg();
-
-                    int xx = r.nextInt(5);
-                    int yy = r.nextInt(5);
-                    if (boss.moveCorrect(xx, yy)) {
-                        String next = board[yy - 1][xx - 1];
-                        if (next.equals("  ")) {
-                            board[boss.getY() - 1][boss.getX() - 1] = "  ";
-                            persona.move(xx, yy);
-                        }
-                    }
-
-                    System.out.print("X ");
+                    System.out.println("Ты размышляешь над следующим своим шагом.Твоя школа похожа на какой-то лабиринт.\n" +
+                            "(За один ход ты можешь идти только на одну клетку)" +
+                            "\nСейчас ты здесь - (x: " + persona.getX() + ", y: " + persona.getY() + "))");
                     int x = scanner.nextInt();
-                    System.out.print("Y ");
                     int y = scanner.nextInt();
+
                     if (persona.moveCorrect(x, y)) {
-
                         String next = board[y - 1][x - 1];
-
                         if (next.equals("  ")) {
-
                             board[persona.getY() - 1][persona.getX() - 1] = "  ";
-
                             persona.move(x, y);
-
                             stepa++;
-                            if (difficult != 5) {
-                                System.out.println("Я арзрешаю тебе туда ходить .Теперь ты тут: " + persona.getX() + ", " + persona.getY() +
-                                        "\nХод номер: " + stepa);
-                            } else {
-                                System.out.println("我禁止你去那里。你现在在这里: " + persona.getX() + ", " + persona.getY() +
-                                        "\n移动号码: " + stepa);
-                            }
-
-                        } else if (next.equals(caslte)) {
-                            if (difficult != 5) {
-                                System.out.println("Крассавчик");
-                                break;
-                            } else {
-                                System.out.println("哈哈傻瓜");
-                                break;
-                            }
-
-
+                            System.out.println("Я могу туда бежать. Теперь я здесь: " + persona.getX() + ", " + persona.getY() +
+                                    "\nStepa: " + stepa);
+                        } else if (next.equals(Lestnica)) {
+                            System.out.println("Вы добегаете до лестницы и с свистом вылетаете из двеги в школьный двор.Там до дома рукой подать.");
+                            break;
                         } else {
+                            boolean monsterFound = false;
                             for (Monster monster : arrayMonster) {
                                 if (monster.conflictPerson(x, y)) {
+                                    monsterFound = true;
                                     if (monster.taskMonster(difficult)) {
                                         board[persona.getY() - 1][persona.getX() - 1] = "  ";
                                         persona.move(x, y);
-
                                     } else {
-                                        persona.downLive();
+                                        persona.endLive();
                                     }
                                     break;
                                 }
                             }
+
+                            if (!monsterFound) {
+                                for (int i = 0; i < arrayBonys.length; i++) {
+                                    Bonys bonus = arrayBonys[i];
+                                    if (bonus != null && bonus.conflictPerson(x, y)) {
+
+                                        bonus.kasino(difficult);
+                                        int c = bonus.c();
+
+                                        if (c == 0) {
+                                            persona.endLive();
+                                        } else if (c==1) {
+                                            persona.upLive();
+
+                                        }
+
+                                        board[bonus.getY()-1][bonus.getX()-1] = "  ";
+                                        arrayBonys[i] = null;
+                                        board[persona.getY() - 1][persona.getX() - 1] = "  ";
+                                        persona.move(x, y);
+                                        break;
+                                    }
+                                }
+
+                            }
+                        }
+                        int bossX = boss.getX();
+                        int bossY = boss.getY();
+                        boss.Step();
+
+                        if (board[boss.getY()-1][boss.getX()-1].equals("  ")) {
+                            board[bossY-1][bossX-1] = "  ";
+                            board[boss.getY()-1][boss.getX()-1] = boss.getImg();
+                        }
+
+                        if (boss.movePlayer(persona.getX(), persona.getY())) {
+                            System.out.println("Директор догнал вас!");
+                            boss.attackPlayer(persona);
                         }
                     } else {
-                        if (difficult != 5) {
-                            System.out.println("Низя");
-                        } else {
-                            System.out.println("不得");
-                        }
+                        System.out.println("Я не умею телепортироваться");
+                    }
 
-
+                    if (persona.getLive() <= 0) {
+                        System.out.println("Вас поймали и отвели к Директору.Это не самое страшное , ведь в школу едут РОДИТЕЛИ. Жизни закончились(");
+                        break;
                     }
                 }
-            }
-            case "Нет" : System.out.println("Ну и УХОДИ:((");
-            default : System.out.println("Не понимаю @_@");
-        }
+                break;
 
+
+            case "Нет":
+                System.out.println("Вы сходили в туалет и вернусь в класс дальше тухнуть на парте.");
+                break;
+
+        }
     }
+
 
     static void outputBoard(String[][] board, int live) {
         String leftBlock = "| ";
@@ -167,14 +185,7 @@ public class Main {
             System.out.println(rightBlock);
         }
         System.out.println(wall);
-        String health = "\uD83D\uDC96";
-
-        System.out.println(health + live + "\n");
+        String heart = "\uD83D\uDC96";
+        System.out.println(heart + live + "\n");
     }
 }
-
-
-
-
-
-
