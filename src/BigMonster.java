@@ -9,17 +9,17 @@ public class BigMonster extends Monster {
         super(sizeBoard);
     }
 
-    //    @Override
+
     public String getImage() {
         return image;
     }
 
-    //    @Override
+
     public void setImage(String image) {
         this.image = image;
     }
 
-    // переопредилим метод:
+    
     @Override
     public boolean taskMonster(int difficult) {
         System.out.println("ОпаАААААА Математичка ловит вас за руку.Но раз в год и она может быть чуть добрее.Она согласна вас отпусть если решите задачу.Если нет то к ДИРЕКТОРУ");
